@@ -18,7 +18,7 @@ INSTRUCTIONS:
 2. Create a symlink, eg: ln -s prj/chrox/settings.pl ~/.chroxrc
 3. Put something like this in your crontab:
 
-00 * * * * $HOME/prj/chrox/launch.pl dreeves
+00 * * * * $HOME/prj/chrox/launch.pl
 
 # do crontab <crontab filename> after editting the file
 # template:  minute hour day month day-of-week  command
