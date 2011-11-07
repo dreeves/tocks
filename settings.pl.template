@@ -1,0 +1,11 @@
+$usr = "__USER__";  # your username -- CHANGEME
+$path = "__PATH__";  # path to chrox -- CHANGEME
+        if($path !~ /\/$/) { $path.="/"; }
+$logf = "$path$usr.log";  # log file for chrocks
+
+$GIT = "/opt/local/bin/git"; # possibly CHANGEME
+
+$nytz = 0; # offset in hours from nyc time (dumb hack)
+
+1; # When requiring a library in perl it has to return 1.
+
