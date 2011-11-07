@@ -37,13 +37,13 @@ if($i > 1) {
   exit(1);
 }
 
-$ENV{DISPLAY} = ":0.0";  # have to set this explicitly if invoked by cron.
+#$ENV{DISPLAY} = ":0.0";  # have to set this explicitly if invoked by cron.
 
 my($sec,$min,$hour) = localtime(time - $nytz*3600);
 
 counter(1);
 # man xterm for all these fancy options...
-system("/usr/X11R6/bin/xterm -T '${hour}occ CHROCK' " . 
+system("$XT -T '${hour}occ CHROCK' " . 
        "-fg white -bg darkviolet -cr green -bc -rw -e ${path}chrox.pl");
 counter(-1);
 
