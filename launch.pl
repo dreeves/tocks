@@ -39,7 +39,7 @@ if($i > 1) {
 
 $ENV{DISPLAY} = ":0.0";  # have to set this explicitly if invoked by cron.
 
-my($sec,$min,$hour) = localtime(time - $nytz);
+my($sec,$min,$hour) = localtime(time - $nytz*3600);
 
 counter(1);
 # man xterm for all these fancy options...

@@ -92,7 +92,8 @@ sub dt {
 # Time string -- takes unix time and returns a formated YMD HMS string.
 sub ts {
   my($t) = @_;
-  my($year,$mon,$mday,$hour,$min,$sec,$wday,$yday,$isdst) = dt(time);
+  $t = time unless defined($t);
+  my($year,$mon,$mday,$hour,$min,$sec,$wday,$yday,$isdst) = dt($t);
   return "$year-$mon-$mday $hour:$min:$sec $wday";
 }
 

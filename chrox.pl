@@ -33,17 +33,17 @@ if(!flock(LF, LOCK_EX | LOCK_NB)) {  # exclusive, nonblocking lock.
   print " done!\n\n";
 }
 
-my($year,$mon,$mday,$hour) = dt();
+my($year,$mon,$mday,$hour) = dt(time - $nytz*3600);
 
 #06-29 14:00:10 TUE dreeves ___ [[time]] :chrock :done :fail :edit :void :smack
-my $tmptime = ts(time - $nytz);
+my $tmptime = ts(time - $nytz*3600);
 $tmptime =~ s/^\d{4,4}\-//;
 print "$tmptime $usr ___ [[time]] :chrock :done :fail :edit :void :smack\n";
 print "Enter something you'll finish in the ".
   $hour."occ. (add :chrock to count for money)\n\n";
 my $a = <STDIN>;
 chomp($a);  # input the goal (should trim whitespace from front and back)
-my $start = time - $nytz;
+my $start = time - $nytz*3600;
 clog(ts($start)." $usr $a [[");
 
 ($year,$mon,$mday,$hour,$min,$sec) = dt($start);
@@ -52,7 +52,7 @@ print "\n--> STARTED ${hour}occ ($hour:$min:$sec -> $ht:$mt:$st)... (hitting ENT
 #clocksoff();
 my $b = <STDIN>;
 chomp($b);
-my $end = time - $nytz;
+my $end = time - $nytz*3600;
 print "\n--> STOPPED after " . ss($end-$start) . 
                               " (add tags like :void :done :fail :edit)\n\n";
 #clockson();
