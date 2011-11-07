@@ -71,6 +71,7 @@ if ($abc=~ /\:edit\b/) { system("/usr/bin/vi + ${path}$usr.log"); }
 close(LF);  # release the lock.
 
 print "\nChecking ${usr}'s log into git...\n";
+system("cd $path; $GIT add ${path}$usr.log");
 system("cd $path; $GIT commit ${path}$usr.log -m \"AUTO-CHECKIN $usr\"");
 system("cd $path; $GIT pull; $GIT push");
 system("${path}score.pl ${path}*.log | /usr/bin/less +G");
