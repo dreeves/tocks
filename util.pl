@@ -5,6 +5,8 @@ $CHR = 45*60;   # length of a chrock in seconds.
 use Fcntl qw(:DEFAULT :flock);  # for file locking.
 use Net::Ping;
 
+defined($XT) or $XT = "/usr/X11/bin/xterm";
+
 # add i to the counter of how many popups are waiting, stored in a state file.
 # call with a large negative number to just blow away the state file.
 # call with 0 to just query it.  (negative numbers to decrement, of course)
