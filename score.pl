@@ -17,8 +17,8 @@ $D = "done";    # tag denoting successful completion of a chrock.
 $F = "fail";    # tag denoting failure.
 $V = "void";    # tag denoting that this chrock should be voided.
 $S = "smack";   # tag denoting an off-task ping on this chrock.
-$ANTE = 20;     # how much each puts in if >1 of them attempts a chrock.
-$SFEE = 200;    # smack fee: penalty for getting pinged off-task.
+$ANTE = 2;      # how much each puts in if >1 of them attempts a chrock.
+$SFEE = 20;     # smack fee: penalty for getting pinged off-task.
 
 $unparsables = "";  # report of unparsable lines in log file.
 $duplicates = "";   # report of duplicate entries in log file.
