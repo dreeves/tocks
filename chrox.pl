@@ -54,7 +54,7 @@ my $b = <STDIN>;
 chomp($b);
 my $end = time - $nytz*3600;
 print "\n--> STOPPED after " . ss($end-$start) . 
-                              " (add tags like :void :done :fail :edit)\n\n";
+                               " (add tags :void :done :fail :edit :smack)\n\n";
 #clockson();
 clog(ss($end-$start)."]] $b");
 my $c = <STDIN>;  chomp($c);
