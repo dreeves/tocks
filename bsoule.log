@@ -1,1 +1,5 @@
 2011-11-07 17:09:58 MON bsoule load body/subj :chrock :bmndr [[34:22s]]  :done
+2011-11-08 14:09:57 TUE bsoule ORI implemented and deployed :chrock [[46:23s]]  :done
+2011-11-08 22:49:36 TUE bsoule test and fix sendmail=false :chrock [[27:31s]]  :done
+2011-11-09 11:40:17 WED bsoule make a legend in sidebar :chrock [[47:58s]]  :fail
+2011-11-09 15:37:49 WED bsoule send responses. deploy legend. :chrock [[35:56s]]  :done
