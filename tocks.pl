@@ -2,23 +2,8 @@
 # Tock Tracker -- prompt for and log tocks (tock = 45-minute pomodoro).
 # by Danny Reeves and Bethany Soule -- 2007 March 14
 
-require "$ENV{HOME}/.chroxrc";
+require "$ENV{HOME}/.tocksrc";
 require "${path}util.pl";
-
-## Possible paths to chrox.  Add yours.
-#@chroxpath = (
-#  "$ENV{HOME}/prj/chrox",
-#  "$ENV{HOME}/factory/chrox",
-#);
-## Make $path the first of the above that actually exists.
-#for(@chroxpath) { if(-e $_) { $path = $_;  last; } }
-#die "Chrox path not found.\n" unless defined($path);
-
-$SVN = "/usr/bin/svn";
-
-#if($#ARGV != 0) { die "Usage: $0 <user>\n"; }
-#$usr = shift;
-#$usr =~ s/\.log$//;  # in case called with usr.log instead of just usr
 
 use Fcntl qw(:DEFAULT :flock);  # (needed despite inclusion in util.pl)
 
@@ -28,33 +13,33 @@ print STDERR "\a";  # beep!
 
 sysopen(LF, "${path}$usr.log", O_RDONLY | O_CREAT) or die;
 if(!flock(LF, LOCK_EX | LOCK_NB)) {  # exclusive, nonblocking lock.
-  print "Waiting for the previous chrox window to close...";
-  flock(LF, LOCK_EX) or die "Can't lock ${path}chrox.lock: $!";
+  print "Waiting for the previous tocks window to close...";
+  flock(LF, LOCK_EX) or die "Lock problem: $!";
   print " done!\n\n";
 }
 
 my($year,$mon,$mday,$hour) = dt(time - $nytz*3600);
 
-#06-29 14:00:10 TUE dreeves ___ [[time]] :chrock :done :fail :edit :void :smack
+#06-29 14:00:10 TUE dreeves ___ [[time]] :tock :done :fail :edit :void :smac
 my $tmptime = ts(time - $nytz*3600);
 $tmptime =~ s/^\d{4,4}\-//;
-print "$tmptime $usr ___ [[time]] :chrock :done :fail :edit :void :smack\n";
-print "Enter something you'll finish in the ".
-  $hour."occ. (add :chrock to count for money)\n\n";
+print "$tmptime $usr ___ [[time]] :tock :done :fail :edit :void :smac\n";
+print "Enter task you'll finish in the ".
+  $hour.":00 tock. (add :tock to count for money)\n\n";
 my $a = <STDIN>;
 chomp($a);  # input the goal (should trim whitespace from front and back)
 my $start = time - $nytz*3600;
 clog(ts($start)." $usr $a [[");
 
 ($year,$mon,$mday,$hour,$min,$sec) = dt($start);
-my ($yt, $mt, $dt, $ht, $mt, $st) = dt($start+$CHR);
+my ($yt, $mt, $dt, $ht, $mt, $st) = dt($start+$TLEN);
 print "\n--> STARTED ${hour}occ ($hour:$min:$sec -> $ht:$mt:$st)... (hitting ENTER stops the clock)\n\n";
 #clocksoff();
 my $b = <STDIN>;
 chomp($b);
 my $end = time - $nytz*3600;
 print "\n--> STOPPED after " . ss($end-$start) . 
-                               " (add tags :void :done :fail :edit :smack)\n\n";
+                               " (add tags :void :done :fail :edit :smac)\n\n";
 #clockson();
 clog(ss($end-$start)."]] $b");
 my $c = <STDIN>;  chomp($c);
@@ -76,24 +61,3 @@ system("cd $path; $GIT commit ${path}$usr.log -m \"AUTO-CHECKIN $usr\"");
 system("cd $path; $GIT pull; $GIT push");
 system("${path}score.pl ${path}*.log | /usr/bin/less +G");
 
-
-# SCRATCH AREA ################################################
-
-#while ($k !~/chrock|frock|void/){
-#  print "Specify category (chrock/frock/void): ";
-#  $k = <STDIN>;  chomp($k);
-#}
-#if ($k ne "void"){
-#  while ($d !~/done|fail|edit/){
-#    print "Specify success (done/fail/edit): ";
-#    $d = <STDIN>;  chomp($d);
-#  }
-#}
-#clog(ss($end-$start)."]] $k $d\n");
-
-
-#sleep(30);   # for debugging.
-# while(time<$ansTm+45*60) {
-#   print STDERR ".";
-#   sleep(60);
-# }

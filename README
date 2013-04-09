@@ -1,23 +1,23 @@
-Chrock Tracker!
+Tock Tracker!
 
-A chrock is like a pomodoro but 45 minutes instead of 20.
+A tock is like a pomodoro but 45 minutes instead of 25.
 
 Contest Rules:
- - each hour that >1 of us does a chrock we each put $2 in the pot
+ - each hour that >1 of us does a tock we each put $2 in the pot
  - if you don't finish in 45 minutes you forfeit your ante and get nothing
  - of those remaining, whoever takes *longest* to finish gets the pot
    (future idea: split the pot proportionally to how long each person took)
  - if no one finished in 45 minutes, the pot rolls over for next time
- - you have to mark the chrock as :fail if you get tagtime-pinged while off task
+ - you have to mark the tock as :fail if you get tagtime-pinged while off task
  
 (original contest was closed and paid on 2007.06.27)
 
 INSTRUCTIONS:
 
 1. Copy settings.pl.template to settings.pl and mutatis mutandis
-2. Create a symlink, eg: ln -s prj/chrox/settings.pl ~/.chroxrc
+2. Create a symlink, eg: ln -s prj/tocks/settings.pl ~/.tocksrc
 3. Put something like this in your crontab:
-     00 * * * * $HOME/prj/chrox/launch.pl
+     00 * * * * $HOME/prj/tocks/launch.pl
 
      # do crontab <crontab filename> after editting the file
      # template:  minute hour day month day-of-week  command
@@ -25,6 +25,6 @@ INSTRUCTIONS:
      # Set first field to '*' for every minute (handy for debugging)
      # or to 00 to launch every hour on the hour
 
-3b. Or, if you want to start chrox manually, you may need to edit out the line 
+3b. Or, if you want to start tocks manually, you may need to edit out the line 
     that starts something like $ENV{DISPLAY} = ":0.0"; 
     Don't know what the hell that crap is about; only an issue for bsoule.

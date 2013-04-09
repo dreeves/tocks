@@ -1,7 +1,7 @@
 $usr = "__USER__";  # your username -- CHANGEME
-$path = "__PATH__";  # path to chrox -- CHANGEME
+$path = "__PATH__";  # path to tocks -- CHANGEME
         if($path !~ /\/$/) { $path.="/"; }
-$logf = "$path$usr.log";  # log file for chrocks
+$logf = "$path$usr.log";  # log file for tocks
 
 $GIT = "/opt/local/bin/git"; # possibly CHANGEME
 

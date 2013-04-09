@@ -1,6 +1,6 @@
-# Utility functions for chrocktracker.
+# Utility functions for tock tracker.
 
-$CHR = 45*60;   # length of a chrock in seconds.
+$TLEN = 45*60;   # length of a tock in seconds.
 
 use Fcntl qw(:DEFAULT :flock);  # for file locking.
 use Net::Ping;
@@ -12,7 +12,7 @@ defined($XT) or $XT = "/usr/X11/bin/xterm";
 # call with 0 to just query it.  (negative numbers to decrement, of course)
 sub counter {
   my($i) = @_;
-  my($file) = "$path/.chrox";
+  my($file) = "$path/.tocklock";
   sysopen(FH, $file, O_RDWR | O_CREAT) or die;
   flock(FH, LOCK_EX) or die "can't write-lock $file: $!";
   my $x = <FH> || 0; # NB: has to be '||' not 'or'
@@ -33,9 +33,9 @@ sub counter {
 
 # turn off clocks
 sub clocksoff {
-  system("touch $ENV{HOME}/.chroxon");  # just make sure it exists.
+  system("touch $ENV{HOME}/.tockon");  # just make sure it exists.
   my $p = Net::Ping->new();
-  system("ssh yootles.com touch .chroxon &") if $p->ping("yootles.com");
+  system("ssh yootles.com touch .tockon &") if $p->ping("yootles.com");
   $p->close();
   # toggling between analog and digital works but not disabling altogether?
   #system("defaults write com.apple.MenuBarClock ClockDigital -bool false &");
@@ -45,9 +45,9 @@ sub clocksoff {
 
 # turn clocks on
 sub clockson {
-  unlink("$ENV{HOME}/.chroxon");
+  unlink("$ENV{HOME}/.tockon");
   my $p = Net::Ping->new();
-  system("ssh yootles.com rm .chroxon &") if $p->ping("yootles.com");
+  system("ssh yootles.com rm .tockon &") if $p->ping("yootles.com");
   $p->close();
   #system("defaults write com.apple.MenuBarClock ClockDigital -bool true &");
   #system("defaults write com.apple.MenuBarClock ClockEnabled -bool true &");
