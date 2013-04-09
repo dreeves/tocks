@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# Chrock Tracker -- prompt for and log chrocks.
+# Tock Tracker -- prompt for and log tocks (tock = 45-minute pomodoro).
 # by Danny Reeves and Bethany Soule -- 2007 March 14
 
 require "$ENV{HOME}/.chroxrc";
