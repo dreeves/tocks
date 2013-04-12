@@ -7,6 +7,8 @@ require "${path}util.pl";
 
 use Fcntl qw(:DEFAULT :flock);  # (needed despite inclusion in util.pl)
 
+my $tskf = "${ttpath}$usr.tsk"; # TagTime task file
+
 $| = 1;  # autoflush STDOUT.
 
 print STDERR "\a";  # beep!
@@ -19,6 +21,24 @@ if(!flock(LF, LOCK_EX | LOCK_NB)) {  # exclusive, nonblocking lock.
 }
 
 my($year,$mon,$mday,$hour) = dt(time - $nytz*3600);
+
+# print the active tasks in the tagtime task file, if present
+if(-e $tskf) {  # show pending tasks
+  if(open(F, "<$tskf")) {
+    while(<F>) {
+      if(/^\-{4,}/ || /^x\s/i) { print; last; }
+      if(/^(\d+)\s+\S/) {
+        print;
+        #$tags{$1} = gettags($_);  # hash mapping task num to tags string
+      } else { print; }
+    }
+    close(F);
+  } else {
+    print "ERROR: Can't read task file ($tskf)\n";
+    #$eflag++;
+  }
+  print "\n";
+}
 
 #06-29 14:00:10 TUE dreeves ___ [[time]] :tock :done :fail :edit :void :smac
 my $tmptime = ts(time - $nytz*3600);
@@ -33,7 +53,8 @@ clog(ts($start)." $usr $a [[");
 
 ($year,$mon,$mday,$hour,$min,$sec) = dt($start);
 my ($yt, $mt, $dt, $ht, $mt, $st) = dt($start+$TLEN);
-print "\n--> STARTED ${hour}occ ($hour:$min:$sec -> $ht:$mt:$st)... (hitting ENTER stops the clock)\n\n";
+print "\n--> STARTED ${hour}t ($hour:$min:$sec -> $ht:$mt:$st)... " .
+      "(hitting ENTER stops the clock)\n\n";
 #clocksoff();
 my $b = <STDIN>;
 chomp($b);

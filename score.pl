@@ -24,7 +24,8 @@ $unparsables = "";  # report of unparsable lines in log file.
 $duplicates = "";   # report of duplicate entries in log file.
 $badness = 0;       # whether there were any problems computing balances.
 while(<>) {
-  if(/^(\d\d\d\d)\-(\d\d)\-(\d\d)\ (\d\d)\:(\d\d)\:(\d\d)\ (\w\w\w)\ (\w+)\ (.*)\ ?\[\[(.*)\]\]\ (.*)$/) {
+  if(/^(\d\d\d\d)\-(\d\d)\-(\d\d)\ (\d\d)\:(\d\d)\:(\d\d)\ (\w\w\w)\ (\w+)\ 
+       (.*)\ ?\[\[(.*)\]\]\ (.*)$/x) {
     $year = $1; $mon = $2; $day = $3; $hr = $4; $min = $5; $sec = $6;
     $wday = $7; $usr = $8; $x = $9; $t = pss($10); $y = $11;
     $xy = "$x $y"; # concatntn of user-entered stuff, before/after clock stopped
@@ -111,7 +112,7 @@ print "Log entries:       ", join(', ', map("$_: $uh{$_}", @users)), "\n";
 print "Non-tocks:         ", join(', ', map("$_: $nh{$_}", @users)), "\n";
 print "Attempted tocks:   ", join(', ', map("$_: $ah{$_}", @users)), "\n";
 print "Completed tocks:   ", join(', ', map("$_: $yh{$_}", @users)), "\n";
-print "Smacks:            ", join(', ', map("$_: $sc{$_}", @users)), "\n";
+print "Smacs:             ", join(', ', map("$_: $sc{$_}", @users)), "\n";
 print "Total time logged: ", join(', ', map("$_: ".ss($tt{$_}), @users)), "\n";
 push(@users, "pot");
 print "Net money: ", join(', ', map("$_: $ytl{$_}", @users)), "\n";

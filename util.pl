@@ -12,7 +12,7 @@ defined($XT) or $XT = "/usr/X11/bin/xterm";
 # call with 0 to just query it.  (negative numbers to decrement, of course)
 sub counter {
   my($i) = @_;
-  my($file) = "$path/.tocklock";
+  my($file) = "${path}.tocklock";
   sysopen(FH, $file, O_RDWR | O_CREAT) or die;
   flock(FH, LOCK_EX) or die "can't write-lock $file: $!";
   my $x = <FH> || 0; # NB: has to be '||' not 'or'
@@ -57,7 +57,6 @@ sub clockson {
 # I've only proved this correct, not tried it:
 sub member {
   my($x, @a) = @_;
-  print "DEBUG: $x in [", join(@a), "]\n"; sleep(5);
   if (scalar(@a) == 0) { return 0; }
   if ($x eq $a[0]) { return 1; }
   return member($x, shift(@a));
