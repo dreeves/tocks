@@ -15,8 +15,15 @@
 2013-04-01 11:27:11 MON dreeves amend exponential post; comment on j2j; email akranon :tock [[54:35s]] :smac :fail 
 2013-04-01 12:22:59 MON dreeves pie chart to blog, j2j comment, akranon, thick 7 days :tock [[02h03:31s]]  :done
 2013-04-01 15:15:48 MON dreeves fix width problem for retroratchet :tock [[03h49:52s]] :fail 
-2013-04-01 22:55:13 MON dreeves  [[1s]]  
-2013-04-02 14:08:48 TUE dreeves  [[0s]]  
-2013-04-02 15:20:37 TUE dreeves  [[1s]]  
 2013-04-02 15:21:10 TUE dreeves set-a-limit reporting pessimistically :tock [[2013-04-04 10:15:20 THU dreeves prose for custom goals and sliders :chrock [[01h20:26s]] :fail 
 2013-04-04 11:37:59 THU dreeves fix expost :chrock [[03h45:44s]]  :done
+2013-04-09 02:19:41 TUE dreeves confirm this works after name change :tock [[03:14s]]  :void
+2013-04-09 15:37:43 TUE dreeves tocks shows active tagtime tasks :tock [[25:25s]]  :smac :fail
+2013-04-09 19:14:54 TUE dreeves hack night tock  [[01h12:02s]] :tock  :fail
+2013-04-09 20:27:39 TUE dreeves hack night tock 2 :tock [[21h04:51s]]  :fail
+2013-04-10 17:34:32 WED dreeves task 2 :tock [[15h20:54s]]  
+2013-04-11 10:00:38 THU dreeves finish akranon reply; try globals in bb [[02h00:57s]] :fail 
+2013-04-11 12:03:06 THU dreeves figure out if we can set globals based on hash passed [[02h52:38s]]  :done
+2013-04-11 14:56:16 THU dreeves qi/qo refactor :tock [[01h35:22s]] :fail 
+2013-04-11 16:38:05 THU dreeves finish qi/qo :tock [[37:56s]]  :fail
+2013-04-12 01:39:14 FRI dreeves coherent draft :tock [[13h42:28s]]  
