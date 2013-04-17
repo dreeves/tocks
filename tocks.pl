@@ -84,7 +84,7 @@ tlog(" $c\n");
 
 my $abc = "$a $b $c [".ss($end-$start)."]";
 if($abc =~ /\:edit\b/) {
-  if($beemauth && $yoog && ) {
+  if($beemauth && $yoog) {
     print "\nRetype the tock task for Beeminder; ",
           "then also fix the tocks log.\n$abc\n";
     $abc = <STDIN>;
@@ -93,7 +93,7 @@ if($abc =~ /\:edit\b/) {
   system("/usr/bin/vi + ${path}$usr.log");
 }
 
-my $frac = ($end-$start)/(45*60);
+my $frac = ($end-$start)/$tocklen;
 if($frac>1) { $frac = 1; }
 
 # send it to beeminder if it counts (it can count as at most 1 tock)
@@ -103,7 +103,7 @@ if($beemauth && $yoog &&
    $abc !~ /\:smac\b/ &&  # no smacs (smac = getting tagtime-pinged off task)
    $abc !~ /\:fail\b/ &&
    ($frac < 1  && $abc =~ /\:done\b/ ||  # partial credit for early finish
-    $frac == 1)                          # full credit for 45m of focused work 
+    $frac == 1)                          # full credit for tock of focused work 
   ) {
   print "Sending a +$frac to beeminder.com/$yoog\n";
   beebop($yoog, time, $frac, $abc);

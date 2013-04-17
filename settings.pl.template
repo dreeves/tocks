@@ -5,6 +5,8 @@ $ttpath = "/Users/dreeves/prj/tagtime"; # path to tagtime (optional)
           if($ttpath !~ /\/$/) { $ttpath.="/"; }
 $logf = "$path$usr.log";  # log file for tocks
 
+$tocklen = 45*60;  # could be 25*60 for standard pomodoros (aka ticks)
+
 # Get your personal Beeminder auth token (after signing in) from
 #   https://www.beeminder.com/api/v1/auth_token.json
 $beemauth = "abc123";  # CHANGEME to your personal beeminder auth token
