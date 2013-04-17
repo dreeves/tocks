@@ -62,8 +62,8 @@ sub member {
   return member($x, shift(@a));
 }
 
-# append a string to the log file
-sub clog {
+# append a string to the tock log file
+sub tlog {
   my($s) = @_;
   open(F, ">>$path/$usr.log") or die "Can't open log file for writing: $!\n";
   print F $s;

@@ -4,10 +4,14 @@
 
 require "$ENV{HOME}/.tocksrc";
 require "${path}util.pl";
+require "${path}beemapi.pl";
+use Data::Dumper; $Data::Dumper::Terse = 1;
+
 
 use Fcntl qw(:DEFAULT :flock);  # (needed despite inclusion in util.pl)
 
 my $tskf = "${ttpath}$usr.tsk"; # TagTime task file
+my $th; # task hash, maps task numbers to task strings from tagtime task file
 
 $| = 1;  # autoflush STDOUT.
 
@@ -48,8 +52,10 @@ print "Enter task you'll finish in the ".
   $hour.":00 tock. (add :tock to count for money)\n\n";
 my $a = <STDIN>;
 chomp($a);  # input the goal (should trim whitespace from front and back)
+$th = taskfetch();
+$a =~ s/\:(\d+)\b/$th->{$1}/eg;
 my $start = time - $nytz*3600;
-clog(ts($start)." $usr $a [[");
+tlog(ts($start)." $usr $a [[");
 
 ($year,$mon,$mday,$hour,$min,$sec) = dt($start);
 my ($yt, $mt, $dt, $ht, $mt, $st) = dt($start+$TLEN);
@@ -58,21 +64,44 @@ print "\n--> STARTED ${hour}t ($hour:$min:$sec -> $ht:$mt:$st)... " .
 #clocksoff();
 my $b = <STDIN>;
 chomp($b);
+$th = taskfetch();
+$b =~ s/\:(\d+)\b/$th->{$1}/eg;
 my $end = time - $nytz*3600;
 print "\n--> STOPPED after " . ss($end-$start) . 
                                " (add tags :void :done :fail :edit :smac)\n\n";
 #clockson();
-clog(ss($end-$start)."]] $b");
-my $c = <STDIN>;  chomp($c);
+tlog(ss($end-$start)."]] $b");
+my $c = <STDIN>;
+chomp($c);
+$th = taskfetch();
+$c =~ s/\:(\d+)\b/$th->{$1}/eg;
 ## turn words into tags:
 #$c =~ s/(\s+|\s*\,\s*)/\ /g;
 #my @tags = split(' ', $c);
 #for (@tags) { s/^\:?/\:/; }  # add the optional colons
-#clog(join(' ', @tags)."\n");
-clog(" $c\n");
+#tlog(join(' ', @tags)."\n");
+tlog(" $c\n");
 
-my $abc = $a . $b . $c;
-if ($abc=~ /\:edit\b/) { system("/usr/bin/vi + ${path}$usr.log"); }
+my $abc = "$a $b $c [".ss($end-$start)."]";
+if($abc =~ /\:edit\b/) {
+  if($beemauth && $yoog) {
+    print "\nRetype the tock task for Beeminder; ",
+          "then also fix the tocks log.\n$abc\n";
+    $abc = <STDIN>;
+    chomp($abc);
+  }
+  system("/usr/bin/vi + ${path}$usr.log");
+}
+
+# send it to beeminder if it counts (no check for how long it took currently)
+if($abc =~ /\:tock\b/ && 
+   $abc =~ /\:done\b/ && 
+   $abc !~ /\:fail\b/ &&
+   $abc !~ /\:void\b/ &&
+   $abc !~ /\:smac\b/ && $beemauth && $yoog) {
+  print "Sending a +1 to beeminder.com/$yoog\n";
+  beebop($yoog, time, 1, $abc);
+}
 
 close(LF);  # release the lock.
 
@@ -82,3 +111,22 @@ system("cd $path; $GIT commit ${path}$usr.log -m \"AUTO-CHECKIN $usr\"");
 system("cd $path; $GIT pull; $GIT push");
 system("${path}score.pl ${path}*.log | /usr/bin/less +G");
 
+
+# Return a hashref mapping tagtime task numbers to the full task strings
+sub taskfetch { 
+  my %h;
+  if(-e $tskf) {
+    if(open(F, "<$tskf")) {
+      while(<F>) {
+        if(/^\-{4,}/ || /^x\s/i) { last; }
+        if(/^(\d+)\s+(.*)/) {
+          $h{$1} = "$1 $2";
+        }
+      }
+    }
+    close(F);
+  } else {
+    print "ERROR: Can't read task file ($tskf)\n";
+  }
+  return \%h;
+}
