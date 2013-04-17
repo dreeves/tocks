@@ -47,7 +47,7 @@ if(-e $tskf) {  # show pending tasks
 #06-29 14:00:10 TUE dreeves ___ [[time]] :tock :done :fail :edit :void :smac
 my $tmptime = ts(time - $nytz*3600);
 $tmptime =~ s/^\d{4,4}\-//;
-print "$tmptime $usr ___ [[time]] :tock :done :fail :edit :void :smac\n";
+print "$tmptime $usr ___ [[time]] :tock :void :smac :fail :done :edit\n";
 print "Enter task you'll finish in the ".
   $hour.":00 tock. (add :tock to count for money)\n\n";
 my $a = <STDIN>;
@@ -68,7 +68,7 @@ $th = taskfetch();
 $b =~ s/\:(\d+)\b/$th->{$1}/eg;
 my $end = time - $nytz*3600;
 print "\n--> STOPPED after " . ss($end-$start) . 
-                               " (add tags :void :done :fail :edit :smac)\n\n";
+                               " (add tags :void :smac :fail :done :edit)\n\n";
 #clockson();
 tlog(ss($end-$start)."]] $b");
 my $c = <STDIN>;
@@ -84,7 +84,7 @@ tlog(" $c\n");
 
 my $abc = "$a $b $c [".ss($end-$start)."]";
 if($abc =~ /\:edit\b/) {
-  if($beemauth && $yoog) {
+  if($beemauth && $yoog && ) {
     print "\nRetype the tock task for Beeminder; ",
           "then also fix the tocks log.\n$abc\n";
     $abc = <STDIN>;
@@ -93,14 +93,20 @@ if($abc =~ /\:edit\b/) {
   system("/usr/bin/vi + ${path}$usr.log");
 }
 
-# send it to beeminder if it counts (no check for how long it took currently)
-if($abc =~ /\:tock\b/ && 
-   $abc =~ /\:done\b/ && 
+my $frac = ($end-$start)/(45*60);
+if($frac>1) { $frac = 1; }
+
+# send it to beeminder if it counts (it can count as at most 1 tock)
+if($beemauth && $yoog &&  
+   $abc =~ /\:tock\b/ &&  # has to be a premeditated tock 
+   $abc !~ /\:void\b/ &&  # can't be voided (void = legit interruption)
+   $abc !~ /\:smac\b/ &&  # no smacs (smac = getting tagtime-pinged off task)
    $abc !~ /\:fail\b/ &&
-   $abc !~ /\:void\b/ &&
-   $abc !~ /\:smac\b/ && $beemauth && $yoog) {
-  print "Sending a +1 to beeminder.com/$yoog\n";
-  beebop($yoog, time, 1, $abc);
+   ($frac < 1  && $abc =~ /\:done\b/ ||  # partial credit for early finish
+    $frac == 1)                          # full credit for 45m of focused work 
+  ) {
+  print "Sending a +$frac to beeminder.com/$yoog\n";
+  beebop($yoog, time, $frac, $abc);
 }
 
 close(LF);  # release the lock.
