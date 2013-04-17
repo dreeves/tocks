@@ -35,3 +35,4 @@
 2013-04-16 14:41:54 TUE dreeves tockminder sending to beeminder :tock [[01h08:41s]] :smac 
 2013-04-16 16:33:02 TUE dreeves allow numbers to refer to tasks :tock [[46:08s]]  :done
 2013-04-16 19:43:15 TUE dreeves 1 clean up qi/qo :kib :dev :bbr :py ~1c 1304161943- =0c :tock [[42:39s]]  :fail
+2013-04-16 21:12:26 TUE dreeves 1 clean up qi/qo :kib :dev :bbr :py ~1c 1304161943- =0c :tock [[3s]] :fail 
