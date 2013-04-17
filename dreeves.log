@@ -38,3 +38,4 @@
 2013-04-16 21:12:26 TUE dreeves 1 clean up qi/qo :kib :dev :bbr :py ~1c 1304161943- =0c :tock [[3s]] :fail 
 2013-04-17 00:04:10 WED dreeves 1 clean up qi/qo :kib :dev :bbr :py ~1c 1304161943- =0c :tock  [[59:00s]] :fail :edit
 2013-04-17 11:08:14 WED dreeves 2 fix the tocks rules for bmndr ~30m 1304171107- =0m :tock [[45:23s]] :void :done
+2013-04-17 13:15:55 WED dreeves 1 clean up qi/qo :kib :dev :bbr :py ~1c 1304161943- =22c :tock [[34:55s]] :done 
