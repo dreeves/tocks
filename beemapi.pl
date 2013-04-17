@@ -8,7 +8,7 @@
 # you'll need to set $beemauth.)
 
 use LWP::UserAgent;  # tip: run 'sudo cpan' and at the cpan prompt do 'upgrade'
-use JSON;            # then 'install LWP::UserAgent' and 'install JSON' etc
+#use JSON;            # then 'install LWP::UserAgent' and 'install JSON' etc
 use HTTP::Request::Common;  # pjf recomends cpanmin.us
 use Data::Dumper; $Data::Dumper::Terse = 1;
 $beembase = 'https://www.beeminder.com/api/v1/';
@@ -24,8 +24,8 @@ sub beebop { my($yoog, $t, $v, $c) = @_;
                comment   => $c };
   my $resp = $ua->post($uri, Content => $data);
   beemerr('POST', $uri, $data, $resp);
-  my $x = decode_json($resp->content);
-  return $x->{"id"};
+  #my $x = decode_json($resp->content);
+  #return $x->{"id"};
 }
 
 # Takes request type (GET, POST, etc), uri string, hashref of data arguments, 
