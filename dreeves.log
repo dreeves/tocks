@@ -42,3 +42,4 @@
 2013-04-18 12:04:18 THU dreeves 1 purge the locals/globals hack :kib :dev :bbr :py ~30m 1304181204- =0m :tock [[01h16:09s]] :fail :done 
 2013-04-18 14:26:06 THU dreeves 1 refactor away "init" :kib :dev :bbr :py ~1t 1304181426- =0t :tock [[03h18:16s]] :fail 
 2013-04-18 19:57:58 THU dreeves 1 refactor away "init" :kib :dev :bbr :py ~1t 1304181426- =7.3t :tock [[47:04s]]  
+2013-04-19 10:29:31 FRI dreeves 2 refactor *0 variables :kib :dev :bbr :py ~2.5t 1304191029- =0t :tock [[27:35s]] :void 
