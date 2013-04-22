@@ -43,3 +43,8 @@
 2013-04-18 14:26:06 THU dreeves 1 refactor away "init" :kib :dev :bbr :py ~1t 1304181426- =0t :tock [[03h18:16s]] :fail 
 2013-04-18 19:57:58 THU dreeves 1 refactor away "init" :kib :dev :bbr :py ~1t 1304181426- =7.3t :tock [[47:04s]]  
 2013-04-19 10:29:31 FRI dreeves 2 refactor *0 variables :kib :dev :bbr :py ~2.5t 1304191029- =0t :tock [[27:35s]] :void 
+2013-04-19 11:37:00 FRI dreeves 2 refactor easy param name changes :kib :dev :bbr :py ~2.5t 1304191029- =0t :tock [[47:54s]]  
+2013-04-19 14:31:43 FRI dreeves 2 refactor easy param name changes :kib :dev :bbr :py ~2.5t 1304191029- =0t :tock [[45:30s]]  
+2013-04-19 15:17:37 FRI dreeves 2 refactor easy param name changes :kib :dev :bbr :py ~2.5t 1304191029- =0t :tock [[50:47s]]  
+2013-04-19 17:30:15 FRI dreeves 2 refactor easy param name changes :kib :dev :bbr :py ~2.5t 1304191029- =0t :tock [[54:52s]]  
+2013-04-19 23:27:04 FRI dreeves finish the *0 refactor :tock [[50:12s]]  
