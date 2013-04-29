@@ -28,3 +28,4 @@
 2013-04-27 21:25:53 SAT bsoule :tock override devise sessions controller :done [[02h00:00s]]
 2013-04-29 09:07:02 MON bsoule :tock refresh button refreshes integrations [[47:53s]]  
 2013-04-29 10:17:45 MON bsoule test integration fetching part of refresh :tock [[17:55s]]  :done
+2013-04-29 12:44:36 MON bsoule :tock refreshing for refresh jobs, :onhover for button, try with an integration that has permissions for dev set up correctly. :dev :bmndr [[34:47s]]  :void distracted by D and hipchat stuff
