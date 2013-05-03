@@ -20,3 +20,16 @@
 2013-04-18 14:18:19 THU bsoule 1 message id thing from mailgun :bmndr :dev 1304181416- =1m :tock [[49:06s]]  
 2013-04-19 10:01:33 FRI bsoule 1 message id thing from mailgun :bmndr :dev 1304181416- =1m :tock [[45:58s]] :done :done 
 2013-04-19 11:36:47 FRI bsoule pee and 2 archived goals should not 404 :bmndr :dev 1304181417- =21.3h :tock [[58:26s]]  
+2013-04-22 14:03:31 MON bsoule finish timezone checking & deploy :tock [[38:42s]] :fail :smac
+2013-04-22 15:00:14 MON bsoule debug the user tests [[59:52s]] :tock 
+2013-04-24 15:09:57 WED bsoule once-daily autoratcheting :tock [[37:17s]]  :done
+2013-04-26 09:00:13 FRI bsoule start mass email sending [[01h00:00s]] :fail :tock 
+2013-04-26 10:00:41 FRI bsoule :tock start sending mass email :done [[03h24:52s]]  
+2013-04-27 21:25:53 SAT bsoule :tock override devise sessions controller :done [[02h00:01s]]  
+2013-04-29 09:07:02 MON bsoule :tock refresh button refreshes integrations [[47:53s]]  
+2013-04-29 10:17:45 MON bsoule test integration fetching part of refresh :tock [[17:55s]]  :done
+2013-04-29 12:44:36 MON bsoule :tock refreshing for refresh jobs, :onhover for button, try with an integration that has permissions for dev set up correctly. :dev :bmndr [[34:47s]]  :void distracted by D and hipchat stuff
+2013-04-30 20:30:58 TUE bsoule :tock irish followup email & check d's bbrain params [[02h12:32s]]  :done
+2013-04-30 21:46:53 TUE bsoule :tock rest of bb params [[07:58s]]  :done
+2013-04-30 22:55:25 TUE bsoule :tock refactor admin and goal settings partials [[49:05s]]  :done
+2013-05-01 16:40:10 WED bsoule stfu fitbit :tock [[25:04s]]  :done
