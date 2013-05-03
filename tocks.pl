@@ -53,7 +53,9 @@ print "Enter task you'll finish in the ".
 my $a = <STDIN>;
 chomp($a);  # input the goal (should trim whitespace from front and back)
 $th = taskfetch();
+my $orig = $a;
 $a =~ s/\:(\d+)\b/$th->{$1}/eg;
+if($a ne $orig) { print "$a\n"; }
 my $start = time - $nytz*3600;
 tlog(ts($start)." $usr $a [[");
 
@@ -97,23 +99,17 @@ if($abc =~ /\:edit\b/) {
 }
 
 # Rules for beeminding tocks:
-# 1. Don't get pinged off task (that counts as -2 tocks!)
+# 1. Tag it :smac iff you get TagTime-pinged off task (that counts as -2 tocks!)
 # 2. Try to pick things that take as long as possible without going over 45min
-#    (it counts as a fractional tock if you finish early)
+#    (it counts as a fractional tock if you finish early, eg, 30min = 2/3)
 # 3. If you do go over 45min then it doesn't matter when you stop the clock or
 #    whether you tag it done (it counts as 1/3 of a tock regardless)
-# Nitty gritty:
-# a. Must be a premeditated tock, ie, tag it :tock
-# b. Tag it :done if you finish the task
-# c. Stopping the clock after 45 minutes means it counts as 1/3 (done or not)
-# d. Partial credit for finishing early: (stopping before 45m, tagging it :done)
-#    If it takes x minutes to complete it counts for x/45, eg, 30 minutes = 2/3
-# e. If you get pinged off task, enter :smac, which makes it count as -2!
-# f. Tag it :void for a legit interruption and it won't count at all
+# 4. Make sure to tag it :tock when you start and :done if you finish early
+# 5. Tag it :void for a legit interruption or forgetting to stop the timer
 if($beemauth && $yoog && $abc =~ /\:tock\b/ && $abc !~ /\:void\b/) {
-  my $bval; # value to send to beeminder
   my $smacval = -2;  # what it counts as if you get smac'd, in [-10,0]
   my $overval = 1/3; # how much it counts if you go over, in [0,1]
+  my $bval;          # actual value to send to beeminder
   if($abc =~ /\:smac\b/) { $bval = $smacval; }
   elsif($abc =~ /\:done\b/ && $elapsed<=$tocklen) { $bval = $elapsed/$tocklen; }
   elsif($elapsed > $tocklen) { $bval = $overval; }
