@@ -29,7 +29,7 @@ A tock is like a pomodoro but 45 minutes instead of 25.
 1. Copy settings.pl.template to settings.pl and mutatis mutandis
 2. Create a symlink, eg: ln -s prj/tocks/settings.pl ~/.tocksrc
 3. Put something like this in your crontab:  
-     `00 * * * * $HOME/prj/tocks/launch.pl`
+     `00 * * * * $HOME/prj/tocks/launch.pl`  
      `59 8 * * * rm -f $HOME/prj/tocks/.tocklock`
 
 If you want to start tocks manually, you may need to edit out the line 
