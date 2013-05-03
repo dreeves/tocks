@@ -44,10 +44,10 @@ if(-e $tskf) {  # show pending tasks
   print "\n";
 }
 
-#06-29 14:00:10 TUE dreeves ___ [[time]] :tock :done :fail :edit :void :smac
+#06-29 14:00:10 TUE dreeves ___ [[time]] :tock :done :edit :void :smac
 my $tmptime = ts(time - $nytz*3600);
 $tmptime =~ s/^\d{4,4}\-//;
-print "$tmptime $usr ___ [[time]] :tock :void :smac :fail :done :edit\n";
+print "$tmptime $usr ___ [[time]] :tock :void :smac :done :edit\n";
 print "Enter task you'll finish in the ".
   $hour.":00 tock. (add :tock to count for money)\n\n";
 my $a = <STDIN>;
@@ -67,10 +67,11 @@ chomp($b);
 $th = taskfetch();
 $b =~ s/\:(\d+)\b/$th->{$1}/eg;
 my $end = time - $nytz*3600;
-print "\n--> STOPPED after " . ss($end-$start) . 
-                               " (add tags :void :smac :fail :done :edit)\n\n";
+my $elapsed = $end-$start;
+print "\n--> STOPPED after " . ss($elapsed) . 
+                               " (add tags :void :smac :done :edit)\n\n";
 #clockson();
-tlog(ss($end-$start)."]] $b");
+tlog(ss($elapsed)."]] $b");
 my $c = <STDIN>;
 chomp($c);
 $th = taskfetch();
@@ -82,40 +83,50 @@ $c =~ s/\:(\d+)\b/$th->{$1}/eg;
 #tlog(join(' ', @tags)."\n");
 tlog(" $c\n");
 
-my $abc = "$a $b $c [".ss($end-$start)."]";
+my $abc = "$a $b $c [".ss($elapsed)."]";
 if($abc =~ /\:edit\b/) {
   if($beemauth && $yoog) {
     print "\nRetype the tock task for Beeminder; ",
           "then also fix the tocks log.\n$abc\n";
     $abc = <STDIN>;
     chomp($abc);
+    $abc =~ /\[([^\]]*)\]/;
+    $elapsed = pss($1);
   }
   system("/usr/bin/vi + ${path}$usr.log");
 }
 
-my $frac = ($end-$start)/$tocklen;
-if($frac>1) { $frac = 1; }
-
-# send it to beeminder if it counts (it can count as at most 1 tock)
-if($beemauth && $yoog &&  
-   $abc =~ /\:tock\b/ &&  # has to be a premeditated tock 
-   $abc !~ /\:void\b/ &&  # can't be voided (void = legit interruption)
-   $abc !~ /\:smac\b/ &&  # no smacs (smac = getting tagtime-pinged off task)
-   $abc !~ /\:fail\b/ &&
-   ($frac < 1  && $abc =~ /\:done\b/ ||  # partial credit for early finish
-    $frac == 1)                          # full credit for tock of focused work 
-  ) {
-  print "Sending a +$frac to beeminder.com/$yoog\n";
-  beebop($yoog, time, $frac, $abc);
+# Rules for beeminding tocks:
+# 1. Don't get pinged off task (that counts as -2 tocks!)
+# 2. Try to pick things that take as long as possible without going over 45min
+#    (it counts as a fractional tock if you finish early)
+# 3. If you do go over 45min then it doesn't matter when you stop the clock or
+#    whether you tag it done (it counts as 1/3 of a tock regardless)
+# Nitty gritty:
+# a. Must be a premeditated tock, ie, tag it :tock
+# b. Tag it :done if you finish the task
+# c. Stopping the clock after 45 minutes means it counts as 1/3 (done or not)
+# d. Partial credit for finishing early: (stopping before 45m, tagging it :done)
+#    If it takes x minutes to complete it counts for x/45, eg, 30 minutes = 2/3
+# e. If you get pinged off task, enter :smac, which makes it count as -2!
+# f. Tag it :void for a legit interruption and it won't count at all
+my $bval;
+if($beemauth && $yoog && $abc =~ /\:tock\b/ && $abc !~ /\:void\b/) {
+  if($abc =~ /\:smac\b/) { $bval = -2; }
+  elsif($abc =~ /\:done\b/ && $elapsed<=$tocklen) { $bval = $elapsed/$tocklen; }
+  elsif($elapsed > $tocklen) { $bval = 1/3; }
+  my($year, $mon, $day) = dt();
+  print "Sending to beeminder.com/$yoog\n$day $bval \"$abc\"\n";
+  beebop($yoog, time, $bval, $abc);
 }
 
 close(LF);  # release the lock.
 
-print "\nChecking ${usr}'s log into git...\n";
-system("cd $path; $GIT add ${path}$usr.log");
-system("cd $path; $GIT commit ${path}$usr.log -m \"AUTO-CHECKIN $usr\"");
-system("cd $path; $GIT pull; $GIT push");
-system("${path}score.pl ${path}*.log | /usr/bin/less +G");
+#print "\nChecking ${usr}'s log into git...\n";
+#system("cd $path; $GIT add ${path}$usr.log");
+#system("cd $path; $GIT commit ${path}$usr.log -m \"AUTO-CHECKIN $usr\"");
+#system("cd $path; $GIT pull; $GIT push");
+#system("${path}score.pl ${path}*.log | /usr/bin/less +G");
 
 
 # Return a hashref mapping tagtime task numbers to the full task strings

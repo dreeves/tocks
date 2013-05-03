@@ -6,6 +6,7 @@ use Fcntl qw(:DEFAULT :flock);  # for file locking.
 use Net::Ping;
 
 defined($XT) or $XT = "/usr/X11/bin/xterm";
+defined($tocklen) or $tocklen = 45*60;
 
 # add i to the counter of how many popups are waiting, stored in a state file.
 # call with a large negative number to just blow away the state file.
