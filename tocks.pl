@@ -94,8 +94,9 @@ if($abc =~ /\:edit\b/) {
     chomp($abc);
     $abc =~ /\[([^\]]*)\]/;
     $elapsed = pss($1);
+  } else {
+    system("/usr/bin/vi + ${path}$usr.log");
   }
-  system("/usr/bin/vi + ${path}$usr.log");
 }
 
 # Rules for beeminding tocks:
@@ -107,18 +108,26 @@ if($abc =~ /\:edit\b/) {
 # 4. Make sure to tag it :tock when you start and :done if you finish early
 # 5. Tag it :void for a legit interruption or forgetting to stop the timer
 if($beemauth && $yoog && $abc =~ /\:tock\b/ && $abc !~ /\:void\b/) {
-  my $smacval = -2;  # what it counts as if you get smac'd, in [-10,0]
-  my $overval = 1/3; # how much it counts if you go over, in [0,1]
-  my $bval;          # actual value to send to beeminder
+  my $smacval = -2;    # what it counts as if you get smac'd, in [-10,0]
+  my $overval = 1/3;   # how much it counts if you go over, in [0,1]
+  my $bval = 0;        # actual value to send to beeminder
   if($abc =~ /\:smac\b/) { $bval = $smacval; }
   elsif($abc =~ /\:done\b/ && $elapsed<=$tocklen) { $bval = $elapsed/$tocklen; }
   elsif($elapsed > $tocklen) { $bval = $overval; }
   my($year, $mon, $day) = dt();
-  print "Sending to beeminder.com/$yoog\n$day $bval \"$abc\"\n";
-  beebop($yoog, time, $bval, $abc);
+  if($bval > 0 && $bval <= 1) { 
+    print "Sending to beeminder.com/$yoog\n$day $bval \"$abc\"\n";
+    beebop($yoog, time, $bval, $abc);
+  } else {
+    print "Not sending to Beeminder with value $bval.\n";
+    print "(NB: If you end early without tagging it :done ", 
+          "it doesn't count for anything.)\n";
+  }
 }
 
 close(LF);  # release the lock.
+
+print "[press enter to dismiss]"; my $tmp = <STDIN>;
 
 #print "\nChecking ${usr}'s log into git...\n";
 #system("cd $path; $GIT add ${path}$usr.log");
