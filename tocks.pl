@@ -115,7 +115,7 @@ if($beemauth && $yoog && $abc =~ /\:tock\b/ && $abc !~ /\:void\b/) {
   elsif($abc =~ /\:done\b/ && $elapsed<=$tocklen) { $bval = $elapsed/$tocklen; }
   elsif($elapsed > $tocklen) { $bval = $overval; }
   my($year, $mon, $day) = dt();
-  if($bval > 0 && $bval <= 1) { 
+  if($bval != 0) { 
     print "Sending to beeminder.com/$yoog\n$day $bval \"$abc\"\n";
     beebop($yoog, time, $bval, $abc);
   } else {
