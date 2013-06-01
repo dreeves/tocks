@@ -101,16 +101,9 @@ if($abc =~ /\:edit\b/) {
   }
 }
 
-hipsend($abc);
+hipsend("$abc -- bmndr.com/$yoog.png");
 
-# Rules for beeminding tocks:
-# 1. Tag it :smac iff you get TagTime-pinged off task (that counts as -2 tocks!)
-# 2. Try to pick things that take as long as possible without going over 45min
-#    (it counts as a fractional tock if you finish early, eg, 30min = 2/3)
-# 3. If you do go over 45min then it doesn't matter when you stop the clock or
-#    whether you tag it done (it counts as 1/3 of a tock regardless)
-# 4. Make sure to tag it :done if you finish early
-# 5. Tag it :void for a legit interruption or forgetting to stop the timer
+# See README.md for the rules for beeminding tocks
 if($beemauth && $yoog && $abc !~ /\:void\b/) {
   my $smacval = -2;    # what it counts as if you get smac'd, in [-10,0]
   my $overval = 1/3;   # how much it counts if you go over, in [0,1]
