@@ -9,7 +9,7 @@ A tock is like a pomodoro but 45 minutes instead of 25.
    (it counts as a fractional tock if you finish early, eg, 30min = 2/3)
 3. If you do go over 45min then it doesn't matter when you stop the clock or
    whether you tag it done (it counts as 1/3 of a tock regardless)
-4. Make sure to tag it :tock when you start and :done if you finish early
+4. Make sure to tag it :done if you finish early
 5. Tag it :void for a legit interruption or forgetting to stop the timer
 
 

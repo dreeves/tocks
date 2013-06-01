@@ -5,6 +5,7 @@
 require "$ENV{HOME}/.tocksrc";
 require "${path}util.pl";
 require "${path}beemapi.pl";
+require "${path}hipapi.pl";
 use Data::Dumper; $Data::Dumper::Terse = 1;
 
 
@@ -44,12 +45,12 @@ if(-e $tskf) {  # show pending tasks
   print "\n";
 }
 
-#06-29 14:00:10 TUE dreeves ___ [[time]] :tock :done :edit :void :smac
+#06-29 14:00:10 TUE dreeves ___ [[time]] :done :edit :void :smac
 my $tmptime = ts(time - $nytz*3600);
 $tmptime =~ s/^\d{4,4}\-//;
-print "$tmptime $usr ___ [[time]] :tock :void :smac :done :edit\n";
+print "$tmptime $usr ___ [[time]] :void :smac :done :edit\n";
 print "Enter task you'll finish in the ".
-  $hour.":00 tock. (add :tock to count for money)\n\n";
+  $hour.":00 tock...\n\n";
 my $a = <STDIN>;
 chomp($a);  # input the goal (should trim whitespace from front and back)
 $th = taskfetch();
@@ -63,6 +64,7 @@ tlog(ts($start)." $usr $a [[");
 my ($yt, $mt, $dt, $ht, $mt, $st) = dt($start+$TLEN);
 print "\n--> STARTED ${hour}t ($hour:$min:$sec -> $ht:$mt:$st)... " .
       "(hitting ENTER stops the clock)\n\n";
+hipsend("${hour}oct: $a [$hour:$min -> $ht:$mt]");
 #clocksoff();
 my $b = <STDIN>;
 chomp($b);
@@ -99,15 +101,17 @@ if($abc =~ /\:edit\b/) {
   }
 }
 
+hipsend($abc);
+
 # Rules for beeminding tocks:
 # 1. Tag it :smac iff you get TagTime-pinged off task (that counts as -2 tocks!)
 # 2. Try to pick things that take as long as possible without going over 45min
 #    (it counts as a fractional tock if you finish early, eg, 30min = 2/3)
 # 3. If you do go over 45min then it doesn't matter when you stop the clock or
 #    whether you tag it done (it counts as 1/3 of a tock regardless)
-# 4. Make sure to tag it :tock when you start and :done if you finish early
+# 4. Make sure to tag it :done if you finish early
 # 5. Tag it :void for a legit interruption or forgetting to stop the timer
-if($beemauth && $yoog && $abc =~ /\:tock\b/ && $abc !~ /\:void\b/) {
+if($beemauth && $yoog && $abc !~ /\:void\b/) {
   my $smacval = -2;    # what it counts as if you get smac'd, in [-10,0]
   my $overval = 1/3;   # how much it counts if you go over, in [0,1]
   my $bval = 0;        # actual value to send to beeminder

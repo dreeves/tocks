@@ -12,6 +12,10 @@ $tocklen = 45*60;  # could be 25*60 for standard pomodoros (aka ticks)
 $beemauth = "abc123";  # CHANGEME to your personal beeminder auth token
 $yoog = "alice/tocks"; # CHANGEME to your username/graphname (should be Do More)
 
+$hipauth = "d973c87d99538a0c3e612f7bcb51c1"; # CHANGEME to your HipChat token
+$hiproom = "Beeminder";
+$hipfrom = $usr;
+
 $GIT = "/usr/local/bin/git"; # possibly CHANGEME
 
 $XT = "/usr/X11/bin/xterm";  # path to xterm -- possibly CHANGEME
