@@ -20,7 +20,7 @@ sub hipsend { my($m) = @_;
                             "&notify=1".
                             "&color=purple".
                             "&room_id=$hiproom".
-                            "&from=$hipfrom".
+                            "&from=$hipfrom+tock".
                             "&message=".uri_escape($m);
   my $resp = $ua->get($uri);
   hiperr('GET', $uri, $resp);

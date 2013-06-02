@@ -88,6 +88,7 @@ $c =~ s/\:(\d+)\b/$th->{$1}/eg;
 tlog(" $c\n");
 
 my $abc = "$a $b $c [".ss($elapsed)."]";
+my $bc  =    "$b $c [".ss($elapsed)."]";
 if($abc =~ /\:edit\b/) {
   if($beemauth && $yoog) {
     print "\nRetype the tock task for Beeminder; ",
@@ -101,7 +102,8 @@ if($abc =~ /\:edit\b/) {
   }
 }
 
-hipsend("$abc -- bmndr.com/$yoog.png");
+hipsend("$bc <a href=\"https://www.beeminder.com/$yoog\">".
+            "<img src=\"https://www.beeminder.com/${yoog}-thumb.png\"/></a>");
 
 # See README.md for the rules for beeminding tocks
 if($beemauth && $yoog && $abc !~ /\:void\b/) {
