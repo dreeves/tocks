@@ -77,6 +77,7 @@ print "\n--> STOPPED after " . ss($elapsed) .
 #clockson();
 tlog(ss($elapsed)."]] $b");
 my $c = <STDIN>;
+print "---------------------------------------------------------------------\n";
 chomp($c);
 $th = taskfetch();
 $c =~ s/\:(\d+)\b/$th->{$1}/eg;
