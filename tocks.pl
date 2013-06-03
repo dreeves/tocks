@@ -109,9 +109,9 @@ hipsend("$bc <a href=\"https://www.beeminder.com/$yoog\">".
 # See README.md for the rules for beeminding tocks
 if($beemauth && $yoog && $abc !~ /\:void\b/) {
   my $smacval = -2;    # what it counts as if you get smac'd, in [-10,0]
-  my $overval = 1/3;   # how much it counts if you go over, in [0,1]
+  my $overval = 1/2;   # how much it counts if you go over, in [0,1]
   my $bval = 0;        # actual value to send to beeminder
-  if($abc =~ /\:smac\b/) { $bval = $smacval; }
+  if($abc =~ /\:(smack?|smk)\b/) { $bval = $smacval; }
   elsif($abc =~ /\:done\b/ && $elapsed<=$tocklen) { $bval = $elapsed/$tocklen; }
   elsif($elapsed > $tocklen) { $bval = $overval; }
   my($year, $mon, $day) = dt();

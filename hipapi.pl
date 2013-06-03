@@ -18,7 +18,7 @@ sub hipsend { my($m) = @_;
   my $ua = LWP::UserAgent->new;
   my $uri = $hipbase."message?auth_token=$hipauth".
                             "&notify=1".
-                            "&color=purple".
+                            "&color=green".
                             "&room_id=$hiproom".
                             "&from=$hipfrom+tock".
                             "&message=".uri_escape($m);
