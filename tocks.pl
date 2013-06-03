@@ -103,7 +103,8 @@ if($abc =~ /\:edit\b/) {
 }
 
 hipsend("$bc <a href=\"https://www.beeminder.com/$yoog\">".
-            "<img src=\"https://www.beeminder.com/${yoog}-thumb.png\"/></a>");
+             "bmndr.com/$yoog</a>");
+#            "<img src=\"https://www.beeminder.com/${yoog}-thumb.png\"/></a>");
 
 # See README.md for the rules for beeminding tocks
 if($beemauth && $yoog && $abc !~ /\:void\b/) {
