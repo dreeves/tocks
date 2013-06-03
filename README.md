@@ -9,7 +9,7 @@ The idea is that you want to pick things that take as long as possible without g
 1. Tag it :done when you finish
 2. Tag it :smac iff you get TagTime-pinged off task; that counts as -2 tocks!
 3. It counts as a fractional tock if you finish early, eg, 30min = 2/3 of a tock
-4. It counts as 1/3 of a tock if you exceed 45min, whether or not you tag it done
+4. It counts as half a tock if you exceed 45min, whether or not you tag it done
 5. Tag it :void for a legit interruption or forgetting to stop the timer
 
 
