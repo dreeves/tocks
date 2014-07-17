@@ -51,11 +51,8 @@ $tmptime =~ s/^\d{4,4}\-//;
 print "$tmptime $usr ___ [[time]] :void :smac :done :edit\n";
 print "Enter task you'll finish in the ".
   $hour.":00 tock...\n\n";
-my $a = <STDIN>;
-chomp($a);  # input the goal (should trim whitespace from front and back)
-$th = taskfetch();
-my $orig = $a;
-$a =~ s/\:(\d+)\b/$th->{$1}/eg;
+my $orig = <STDIN>;
+my $a = inexpand($orig);
 if($a ne $orig) { print "$a\n"; }
 my $start = time - $nytz*3600;
 tlog(ts($start)." $usr $a [[");
@@ -66,21 +63,15 @@ print "\n--> STARTED ${hour}t ($hour:$min:$sec -> $ht:$mt:$st)... " .
       "(hitting ENTER stops the clock)\n\n";
 hipsend("${hour}oct: $a [$hour:$min -> $ht:$mt]");
 #clocksoff();
-my $b = <STDIN>;
-chomp($b);
-$th = taskfetch();
-$b =~ s/\:(\d+)\b/$th->{$1}/eg;
+my $b = inexpand(<STDIN>);
 my $end = time - $nytz*3600;
 my $elapsed = $end-$start;
 print "\n--> STOPPED after " . ss($elapsed) . 
                                " (add tags :void :smac :done :edit)\n\n";
 #clockson();
 tlog(ss($elapsed)."]] $b");
-my $c = <STDIN>;
+my $c = inexpand(<STDIN>);
 print "---------------------------------------------------------------------\n";
-chomp($c);
-$th = taskfetch();
-$c =~ s/\:(\d+)\b/$th->{$1}/eg;
 ## turn words into tags:
 #$c =~ s/(\s+|\s*\,\s*)/\ /g;
 #my @tags = split(' ', $c);
@@ -144,7 +135,7 @@ sub taskfetch {
     if(open(F, "<$tskf")) {
       while(<F>) {
         if(/^\-{4,}/ || /^x\s/i) { last; }
-        if(/^(\d+)\s+(.*)/) {
+        if(/^(\d+)\s+(.*)\ \d{10}/) {
           $h{$1} = "$1 $2";
         }
       }
@@ -154,4 +145,16 @@ sub taskfetch {
     print "ERROR: Can't read task file ($tskf)\n";
   }
   return \%h;
+}
+
+# Take a string the user typed and macro-expand task numbers
+sub inexpand {
+  my($s) = @_;
+  chomp($s);
+  my $th = taskfetch();
+  $s =~ s/\:(\d+)\b/$th->{$1}/eg;
+  if($s =~ /^[\d\s\,\;\:\-]+$/) {
+    $s =~ s/(\d+)\b/$th->{$1}/eg;
+  }
+  return $s;
 }
