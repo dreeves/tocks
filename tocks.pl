@@ -52,6 +52,7 @@ print "$tmptime $usr ___ [[time]] :void :smac :done :edit\n";
 print "Enter task you'll finish in the ".
   $hour.":00 tock...\n\n";
 my $orig = <STDIN>;
+chomp($orig);
 my $a = inexpand($orig);
 if($a ne $orig) { print "$a\n"; }
 my $start = time - $nytz*3600;
@@ -63,14 +64,16 @@ print "\n--> STARTED ${hour}t ($hour:$min:$sec -> $ht:$mt:$st)... " .
       "(hitting ENTER stops the clock)\n\n";
 hipsend("${hour}oct: $a [$hour:$min -> $ht:$mt]");
 #clocksoff();
-my $b = inexpand(<STDIN>);
+my $orig = <STDIN>;
+my $b = inexpand($orig);
 my $end = time - $nytz*3600;
 my $elapsed = $end-$start;
 print "\n--> STOPPED after " . ss($elapsed) . 
                                " (add tags :void :smac :done :edit)\n\n";
 #clockson();
 tlog(ss($elapsed)."]] $b");
-my $c = inexpand(<STDIN>);
+my $orig = <STDIN>;
+my $c = inexpand($orig);
 print "---------------------------------------------------------------------\n";
 ## turn words into tags:
 #$c =~ s/(\s+|\s*\,\s*)/\ /g;
